@@ -66,51 +66,11 @@ public class PhonebookDAO {
 	
 	// 전체리스트 가져오기
 	public List<PersonVO> personSelect() {
+		System.out.println("PhonebookDAO.personSelect()");
 		
-		//리스트준비
-		List<PersonVO> personList = new ArrayList<PersonVO>();
+		List<PersonVO> phonebookList = sqlSession.selectList("phonebook.selectList");
 		
-		this.connect();
-
-		try {
-			//3. SQL문준비 / 바인딩 / 실행
-			// SQL문준비
-			String query= "";
-			query +=" select  person_id, ";
-			query +="		  name, ";
-			query +="         hp, ";
-			query +="         company ";
-			query +=" from person ";
-			query +=" order by person_id desc ";
-			
-			// 바인딩
-			pstmt = conn.prepareStatement(query);
-			
-			// 실행
-			rs = pstmt.executeQuery();
-			
-			//4. 결과처리
-			while(rs.next()) {//반복한다
-				//ResultSet에서 각각의 값을 꺼내서 자바 변수에 담는다
-				int personId = rs.getInt("person_id");
-				String name = rs.getString("name");
-				String hp = rs.getString("hp");
-				String company = rs.getString("company");
-				
-				//VO로 묶어준다
-				PersonVO personVO = new PersonVO(personId, name, hp, company);
-				
-				//묶여진VO를 리스트에 추가한다
-				personList.add(personVO);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		}
-		
-		this.close();
-		
-		return personList;
+		return phonebookList;
 		
 	}
 	

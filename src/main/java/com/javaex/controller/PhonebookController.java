@@ -36,13 +36,15 @@ public class PhonebookController {
 	public String list(Model model) {
 		System.out.println("PhonebookController.phonebook()");
 		
-		PhonebookDAO phonebookDAO = new PhonebookDAO();
-		List<PersonVO> phonebookList = phonebookDAO.personSelect();
+		List<PersonVO> phonebookList = phonebookService.exeGetPhonebookList();
+		System.out.println("-----------------------------------------");
 		System.out.println(phonebookList);
+		System.out.println("-----------------------------------------");
+		
 		
 		model.addAttribute("pList", phonebookList);
 		
-		return "/WEB-INF/views/list.jsp";
+		return "/list";
 	}
 	
 	
@@ -52,7 +54,7 @@ public class PhonebookController {
 		System.out.println("PhonebookController.writeForm");
 		
 		
-		return "/WEB-INF/views/writeForm.jsp";
+		return "writeForm";
 	}
 	
 	//등록
@@ -65,7 +67,7 @@ public class PhonebookController {
 		int count = phonebookDAO.personInsert(personVO);
 		System.out.println(count);
 		
-		return "redirect: http://localhost:8888/phonebook4/list";
+		return "redirect: /list";
 		
 	}
 	
@@ -80,7 +82,7 @@ public class PhonebookController {
 		
 		model.addAttribute("personVO", personVO);
 		
-		return "/WEB-INF/views/modifyForm.jsp";
+		return "modifyForm";
 	}
 	
 	//수정
@@ -90,7 +92,7 @@ public class PhonebookController {
 		PhonebookDAO phonebookDAO = new PhonebookDAO();
 		int count = phonebookDAO.personUpdate(personVO);
 		
-		return "redirect:/WEB-INF/views/list.jsp";
+		return "redirect:/list";
 		
 	}
 	
